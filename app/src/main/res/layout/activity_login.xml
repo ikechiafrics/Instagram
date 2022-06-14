@@ -43,7 +43,8 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:textColorHighlight="@color/black"
-        android:textColorLink="@color/black" />
+        android:textColorLink="@color/black"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -55,7 +56,7 @@
         android:backgroundTint="#44A7F6"
         android:contentDescription="Log in"
         android:text="Log in"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textColorHighlight="@color/black"
         android:textColorLink="@color/black"
         app:rippleColor="#00BCD4" />
