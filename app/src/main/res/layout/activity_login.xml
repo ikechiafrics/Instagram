@@ -19,17 +19,6 @@
         android:hint="Username"
         android:minHeight="48dp" />
 
-    <TextView
-        android:id="@+id/etLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="185dp"
-        android:text="instagram"
-        android:textSize="40sp"
-        android:textStyle="italic" />
-
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
@@ -60,4 +49,13 @@
         android:textColorHighlight="@color/black"
         android:textColorLink="@color/black"
         app:rippleColor="#00BCD4" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="312dp"
+        android:layout_height="87dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="127dp"
+        app:srcCompat="@drawable/instagram_logo" />
 </RelativeLayout>
