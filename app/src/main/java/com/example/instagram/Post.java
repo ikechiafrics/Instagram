@@ -7,7 +7,9 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @ParseClassName("Post")
@@ -16,10 +18,12 @@ public class Post extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
     public static final String KEY_CREATED_KEY = "createdAt";
+    public static final String KEY_LIKED_BY = "liked_post";
 
-    public String getDescription() {
-        return getString(KEY_DESCRIPTION);
+    public String getDescription() { return getString(KEY_DESCRIPTION);
     }
+
+    public String getKeyLikedBy() { return getString(KEY_LIKED_BY);}
 
     public void setDescription(String description){
         put(KEY_DESCRIPTION, description);
@@ -37,6 +41,32 @@ public class Post extends ParseObject {
     }
     public void setUser(ParseUser user){
         put(KEY_USER, user);
+    }
+
+    public String likeCountDisplay() {
+        String likesText = String.valueOf(getLikedBy().size());
+        likesText += getLikedBy().size() == 1 ? "like" : " likes";
+        return likesText;
+    }
+
+    public String likeCountDisplayText()
+    {
+        String likesText = String.valueOf(getLikedBy().size());
+        likesText = getLikedBy().size() == 1 ? " like" : "likes";
+        return likesText;
+    }
+
+    public List<String> getLikedBy() {
+        List<String> likeBy = getList(KEY_LIKED_BY);
+        if(likeBy == null) {
+            likeBy = new ArrayList<>();
+        }
+        return likeBy;
+    }
+
+    public void setLikedBy(List<String> likedBy)
+    {
+        put(KEY_LIKED_BY, likedBy);
     }
 
     public String calculateTimeAgo(Date createdAt) {

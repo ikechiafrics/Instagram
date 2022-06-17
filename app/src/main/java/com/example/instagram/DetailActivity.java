@@ -17,8 +17,8 @@ import java.util.Date;
 
 public class DetailActivity extends AppCompatActivity {
     Post post;
-    TextView ivProfileName;
-    ImageView tvImage;
+    TextView tvProfileName;
+    ImageView ivImage;
     TextView tvTime;
 
     @Override
@@ -26,15 +26,15 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        ivProfileName = findViewById(R.id.ivProfileName);
-        tvImage = findViewById(R.id.tvImage);
+        tvProfileName = findViewById(R.id.tvProfileName);
+        ivImage = findViewById(R.id.ivImage);
         tvTime = findViewById(R.id.tvTime);
 
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
 
         ParseFile image = post.getImage();
-        ivProfileName.setText(post.getUser().getUsername());
-        Glide.with(this).load(image.getUrl()).into(tvImage);
+        tvProfileName.setText(post.getUser().getUsername());
+        Glide.with(this).load(image.getUrl()).into(ivImage);
 
         Date createdAt = post.getCreatedAt();
         String timeAgo = post.calculateTimeAgo(createdAt);

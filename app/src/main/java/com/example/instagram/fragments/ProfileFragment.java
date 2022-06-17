@@ -13,11 +13,12 @@ import java.util.List;
 public class ProfileFragment extends PostsFragment{
 
     @Override
-    protected void queryPosts() {
+    protected void queryPosts(int skip) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         query.setLimit(20);
+        query.setSkip(skip);
         query.addDescendingOrder(Post.KEY_CREATED_KEY);
         query.findInBackground(new FindCallback<Post>() {
             @Override
@@ -31,6 +32,7 @@ public class ProfileFragment extends PostsFragment{
                 }
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
             }
         });
     }

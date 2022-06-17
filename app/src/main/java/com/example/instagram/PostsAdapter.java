@@ -3,6 +3,7 @@ package com.example.instagram;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.parse.Parse;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.lang.reflect.Parameter;
 import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
@@ -56,6 +60,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvDescription;
         private TextView tvCreatedAt;
         private ImageView ivProfilePic;
+        private ImageView btnLike;
+        private TextView LikeCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +70,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvCreatedAt = itemView.findViewById(R.id.tvCreatedAt);
             ivProfilePic = itemView.findViewById(R.id.ivProfilePic);
+            btnLike = itemView.findViewById(R.id.btnLike);
+            LikeCount = itemView.findViewById(R.id.LikeCount);
         }
 
         public void bind(Post post) {
@@ -71,6 +79,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvDescription.setText(post.getDescription());
             tvUsername.setText(post.getUser().getUsername());
             tvCreatedAt.setText((post.getCreatedAt().toString()));
+            LikeCount.setText(String.valueOf(post.getLikedBy().size()));
             ParseFile profilePic = post.getUser().getParseFile("profile_picture");
             if (ivProfilePic != null) {
                 Glide.with(context).load(profilePic.getUrl()).transform(new RoundedCorners(90)).into(ivProfilePic);
@@ -85,6 +94,35 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     Intent i = new Intent(context, DetailActivity.class);
                     i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
                     context.startActivity(i);
+                }
+            });
+
+            btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<String> likeBy = post.getLikedBy();
+                    String likeText;
+                    String likeCount;
+
+                    if(!likeBy.contains(ParseUser.getCurrentUser().getObjectId())) {
+                        likeBy.add(ParseUser.getCurrentUser().getObjectId());
+                        post.setLikedBy(likeBy);
+                        Drawable newImage = context.getDrawable(R.drawable.ic_baseline_favorite_24);
+                        btnLike.setImageDrawable(newImage);
+                        likeText = String.valueOf(post.likeCountDisplay());
+                        likeCount = String.valueOf(likeBy.size());
+                        LikeCount.setText(likeCount+likeText);
+                    }
+                    else{
+                        likeBy.remove(ParseUser.getCurrentUser().getObjectId());
+                        post.setLikedBy(likeBy);
+                        Drawable newImage = context.getDrawable(R.drawable.ic_baseline_favorite_border_24);
+                        btnLike.setImageDrawable(newImage);
+                        likeText = String.valueOf(post.likeCountDisplayText());
+                        likeCount = String.valueOf(likeBy.size());
+                        LikeCount.setText("liked");
+                    }
+                    post.saveInBackground();
                 }
             });
         }
