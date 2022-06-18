@@ -50,6 +50,23 @@
         android:textColorLink="@color/black"
         app:rippleColor="#00BCD4" />
 
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="240dp"
+        android:layout_height="37dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="68dp"
+        android:layout_marginBottom="158dp"
+        android:backgroundTint="#44A7F6"
+        android:contentDescription="Log in"
+        android:text="Click here to sign up"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/black"
+        android:textColorLink="@color/black"
+        app:rippleColor="#00BCD4" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="312dp"
@@ -58,4 +75,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="127dp"
         app:srcCompat="@drawable/instagram_logo" />
+
 </RelativeLayout>
